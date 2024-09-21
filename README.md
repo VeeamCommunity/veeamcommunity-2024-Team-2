@@ -29,6 +29,7 @@ Managing and monitoring the protection status of virtual workloads can be challe
 
 ### Flow Diagram
 
+   ```bash
 +----------------+          +-----------------+          +--------------------+
 | User Input     |   --->   | Authenticate    |   --->   | Fetch VM Data      |
 | (Server URL,   |          | with VeeamONE   |          | via REST API       |
@@ -47,7 +48,7 @@ Managing and monitoring the protection status of virtual workloads can be challe
 | Visualization  |          | (Filters & RPO)  |         | (Adjust RPO,       |
 |                |          +------------------+         | Toggle Status)     |
 +----------------+                                           
-
+   ```
 
 ## 📝 Installation
 
