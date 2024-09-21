@@ -48,6 +48,7 @@ Managing and monitoring the protection status of virtual workloads can be challe
 |                |          +------------------+         | Toggle Status)     |
 +----------------+                                           
 
+
 ## 📝 Installation
 
 1. **Clone the Repository**
