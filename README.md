@@ -2,18 +2,6 @@
 
 Welcome to the **Hexagon Protection Dashboard**, a powerful visualization tool designed for the Veeam Hackathon 2024. This Node.js application connects to your VeeamONE server to fetch data about protected and unprotected virtual machines (VMs), displaying them in an interactive hexagon map for quick and intuitive analysis.
 
-## 📖 Table of Contents
-
-- [Why Hexagon Protection Dashboard?](#why-hexagon-protection-dashboard)
-- [Features](#features)
-- [How It Works](#how-it-works)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Documentation](#documentation)
-- [Contributions](#contributions)
-- [License](#license)
-- [Questions](#questions)
-
 ## 🚀 Why Hexagon Protection Dashboard?
 
 Managing and monitoring the protection status of virtual workloads can be challenging. The Hexagon Protection Dashboard addresses this by providing:
