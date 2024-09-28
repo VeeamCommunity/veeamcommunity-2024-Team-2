@@ -1,8 +1,21 @@
 // visualizer/chartConfig.js
+import { sendLogToServer } from '../utils/logger.js';
+
 export function getChartConfig(title, data, maxRows, columns, hexagonRatio) {
     console.log(`Generating chart config for ${title} with ${data.length} items`);
-    const rowsize = hexagonRatio;
-    const chartHeight = maxRows * rowsize * 120;
+    // log the arguments
+    sendLogToServer('INFO', 'CHART CONFIG: Max rows: ' + maxRows + ', Columns: ' + columns + ', Hexagon ratio: ' + hexagonRatio);
+
+    const rowsize = 1; // since ratio is calculated as Math.sqrt(3) / 2 it is 0.86602540378
+    // so we need to calculate height based on number of rows + margins
+    // we will hardcode if we have 1 row
+
+    let chartHeight = (maxRows * rowsize * 75) + 100;
+    if (maxRows === 1) {
+        chartHeight = 75 + 100;
+    }
+    // log the calculations
+    sendLogToServer('INFO', `CHART CONFIG: Chart height for ${title} is ${chartHeight}px`);
     return {
         chart: {
             type: 'tilemap',

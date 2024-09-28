@@ -13,6 +13,7 @@ export function initializeChips(visualizer) {
             autocompleteOptions: {
                 data: {
                     'Protected': null,
+                    'Warning': null,
                     'Unprotected': null
                 },
                 limit: Infinity,

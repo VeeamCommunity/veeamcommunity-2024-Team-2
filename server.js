@@ -3,7 +3,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const fetch = require('node-fetch'); // Ensure you have node-fetch installed
+const fetch = require('node-fetch'); 
 const { Command } = require('commander');
 
 const app = express();
@@ -27,6 +27,13 @@ if (isMockMode) {
 
 // Disable SSL certificate validation (for development only)
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+// Define a POST route to handle logging
+app.post('/logs', (req, res) => {
+  const { level, message, timestamp } = req.body;
+  console.log(`[${timestamp}] [${level.toUpperCase()}] ${message}`);
+  res.status(200).send('Log received');
+});
 
 // Endpoint to authenticate and fetch data
 app.post('/fetch-data', async (req, res) => {
