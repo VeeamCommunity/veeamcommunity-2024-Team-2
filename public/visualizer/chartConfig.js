@@ -27,7 +27,7 @@ export function getChartConfig(title, data, maxRows, columns, hexagonRatio) {
         title: null,
         xAxis: { visible: false, min: 0, max: maxRows - 1 },
         yAxis: { visible: false, min: 0, max: columns - 1 },
-        legend: { enabled: false },
+        legend: { enabled: true },
         credits: { enabled: false },
         exporting: { enabled: false },
         colorAxis: {
@@ -35,7 +35,12 @@ export function getChartConfig(title, data, maxRows, columns, hexagonRatio) {
                 { from: 0, to: 0, color: '#E8595A', name: 'Unprotected' }, // Unprotected: Red color
                 { from: 0.5, to: 0.5, color: '#FFB74D', name: 'Warning' },  // Warning: Orange color
                 { from: 1, to: 1, color: '#54B948', name: 'Protected' }     // Protected: Green color
-            ]
+            ],
+            legend: {
+                align: 'center',
+                verticalAlign: 'bottom',
+                layout: 'horizontal'
+            }
         },
         
         tooltip: {
