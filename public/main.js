@@ -28,7 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rpoFilter = document.getElementById('rpo-filter');
                 if (rpoFilter) {
                     rpoFilter.addEventListener('change', (e) => {
-                        visualizer.updateRPO(parseInt(e.target.value));
+                        const newRPO = parseInt(e.target.value);
+                        if (!isNaN(newRPO)) {
+                            visualizer.updateRPO(newRPO);
+                        }
                     });
                 }
 
