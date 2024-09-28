@@ -79,6 +79,14 @@ Managing and monitoring the protection status of virtual workloads can be challe
    node server.js
    ```
 
+To start the server with mock data, use:
+
+   ```bash
+   node server.js --mock
+   ```
+
+This will allow you to view synthetic data without needing an actual Veeam One installation. Fill in the login credentials with dummy data to access the mock environment.
+
 ## ▶️ Usage
 
 1. **Access the Application**
