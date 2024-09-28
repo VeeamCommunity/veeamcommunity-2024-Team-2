@@ -27,26 +27,47 @@ export function getChartConfig(title, data, maxRows, columns, hexagonRatio) {
         title: null,
         xAxis: { visible: false, min: 0, max: maxRows - 1 },
         yAxis: { visible: false, min: 0, max: columns - 1 },
-        legend: { enabled: false },
+        legend: { enabled: true },
         credits: { enabled: false },
         exporting: { enabled: false },
         colorAxis: {
             dataClasses: [
-                { from: 0, to: 0, color: '#E8595A', name: 'Unprotected' },
-                { from: 1, to: 1, color: '#54B948', name: 'Protected' }
-            ]
+                { from: 0, to: 0, color: '#E8595A', name: 'Unprotected' }, // Unprotected: Red color
+                { from: 0.5, to: 0.5, color: '#FFB74D', name: 'Warning' },  // Warning: Orange color
+                { from: 1, to: 1, color: '#54B948', name: 'Protected' }     // Protected: Green color
+            ],
+            legend: {
+                align: 'center',
+                verticalAlign: 'bottom',
+                layout: 'horizontal'
+            }
         },
+        
         tooltip: {
             headerFormat: '',
             pointFormatter: function () {
                 if (this.isNull) return false;
+        
                 const restoreTime = this.latestRestorePoint
-                    ? this.latestRestorePoint.toLocaleString()
+                    ? new Date(this.latestRestorePoint).toLocaleString()
                     : 'N/A';
-                const status = this.value === 1 ? 'Protected' : 'Unprotected';
+        
+                // Determine the status based on the value
+                let status;
+                if (this.value === 1) {
+                    status = 'Protected';
+                } else if (this.value === 0.5) {
+                    status = 'Warning';
+                } else {
+                    status = 'Unprotected';
+                }
+        
+                // Return formatted tooltip content
                 return `<b>${this.fullName}</b><br>Status: ${status}<br>Last Restore Point: ${restoreTime}`;
             }
         },
+        
+        
         plotOptions: {
             series: {
                 tileShape: 'hexagon',

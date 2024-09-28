@@ -90,17 +90,16 @@
 
         /* Login Modal */
         #login-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-        }
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+}
 
         .modal-content {
             background-color: white;
@@ -142,6 +141,21 @@
             border-color: #4caf50;
         }
 
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Make the port input smaller */
+        #server-port {
+            width: 80px;
+        }
+
+                /* Adjusting the username and password fields to align with the full width of the address+port */
+                #username, #password {
+            width: calc(100% - 7%); /* Adjust to align with server+port field width */
+        }
+        
         .btn-submit {
             width: 100%;
             padding: 12px;
@@ -185,8 +199,8 @@
     <main class="app-content">
         <section class="filter-section">
             <div class="filter-group">
-                <label for="rpo-filter" class="filter-label">RPO Filter (minutes)</label>
-                <input id="rpo-filter" type="number" min="1" value="60" class="filter-input">
+                <label for="rpo-filter" class="filter-label">RPO Filter (hours)</label>
+                <input id="rpo-filter" type="number" min="1" value="24" class="filter-input">
             </div>
             <div class="filter-group">
                 <label for="status-chips" class="filter-label">Status</label>
@@ -205,8 +219,12 @@
             <h2 class="modal-title">Login</h2>
             <form id="login-form">
                 <div class="form-group">
-                    <label for="server-url">Server URL</label>
-                    <input id="server-url" type="text" required placeholder="https://veeamone.example.com:1239">
+                    <label for="server-address">Server Address</label>
+                    <div class="form-row">
+                        <input id="server-address" type="text" required placeholder="https://veeamone.example.com" style="flex-grow: 1;">
+                        <input id="server-port" type="number" required placeholder="1239" value="1239" min="1">
+                        <input type="hidden" id="server-url" name="server-url">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="username">Username</label>
@@ -220,7 +238,23 @@
             </form>
         </div>
     </div>
+<script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevents the default form submission
 
+            const serverAddress = document.getElementById('server-address').value; // Get the server address
+            const serverPort = document.getElementById('server-port').value; // Get the server port
+
+            // Combine the server address and port into one URL
+            const fullServerURL = `${serverAddress}:${serverPort}`; // Combine them
+            document.getElementById('server-url').value = fullServerURL; // Set the hidden input value
+            
+                // Remove the modal from the DOM
+    const loginModal = document.getElementById('login-modal');
+    loginModal.remove();
+        
+        })
+</script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script type="module" src="main.js"></script>

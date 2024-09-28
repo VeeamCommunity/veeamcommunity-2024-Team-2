@@ -7,12 +7,12 @@ export class Visualizer {
     constructor(container) {
         this.container = container;
         this.chart = null;
-        this.rpo = 60;
+        this.rpo = 60 * 24; // 24 hours
         this.workloadType = 'VMs';
         this.allWorkloads = {};
         this.columns = 12; // Expanded mode
         this.hexagonRatio = Math.sqrt(3) / 2;
-        this.allStatuses = ['Protected', 'Unprotected'];
+        this.allStatuses = ['Protected', 'Warning', 'Unprotected'];
         this.selectedStatuses = [...this.allStatuses];
         this.currentContainerWidth = 0;
         this.currentContainerHeight = 0;
@@ -96,23 +96,47 @@ export class Visualizer {
     calculateProtectionStatus(workloads) {
         return workloads.map(workload => {
             if (!workload.latestRestorePoint) {
-                return { ...workload, value: 0 };
+                return { ...workload, value: 0 }; // Unprotected
             }
+    
             const minutesSinceRestore = (Date.now() - workload.latestRestorePoint.getTime()) / 60000;
-            const isProtected = minutesSinceRestore <= this.rpo ? 1 : 0;
+    
+            let value;
+            if (minutesSinceRestore >= this.rpo) {
+                value = 0; // Unprotected
+            } else if (minutesSinceRestore > this.rpo / 2) {
+                value = 0.5; // Warning
+            } else {
+                value = 1; // Protected
+            }
+    
             return {
                 ...workload,
-                value: isProtected
+                value
             };
         });
     }
+    
+
 
     filterByStatus(data) {
         return data.filter(item => {
-            const status = item.value === 1 ? 'Protected' : 'Unprotected';
+            let status;
+    
+            // Determine the status based on the numeric value
+            if (item.value === 1) {
+                status = 'Protected';
+            } else if (item.value === 0.5) {
+                status = 'Warning';
+            } else {
+                status = 'Unprotected';
+            }
+    
+            // Return items that match one of the selected statuses
             return this.selectedStatuses.includes(status);
         });
     }
+    
 
     calculatePositions(data) {
         const totalItems = data.length;
@@ -152,7 +176,7 @@ export class Visualizer {
     }
 
     updateRPO(newRPO) {
-        this.rpo = newRPO;
+        this.rpo = newRPO * 60; // convert to minutes
         this.render();
     }
 
