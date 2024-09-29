@@ -7,7 +7,7 @@ export class Visualizer {
     constructor(container) {
         this.container = container;
         this.chart = null;
-        this.rpo = 60 * 24; // 24 hours
+        this.rpo = 60; 
         this.workloadType = 'VMs';
         this.allWorkloads = {};
         this.columns = 12; // Expanded mode
@@ -98,13 +98,20 @@ export class Visualizer {
             if (!workload.latestRestorePoint) {
                 return { ...workload, value: 0 }; // Unprotected
             }
-    
+
+
+            // We can set it to any value. E.G. 10 minutes like that:
+            // const warningThreshold = this.rpo - 10; // 10 minutes before RPO
+            // or 90% of RPO:
+            // const warningThreshold = this.rpo * 0.9; // 90% of RPO
+            const warningThreshold = this.rpo * 0.5; // 50% of RPO for demo purposes
+            
             const minutesSinceRestore = (Date.now() - workload.latestRestorePoint.getTime()) / 60000;
     
             let value;
             if (minutesSinceRestore >= this.rpo) {
                 value = 0; // Unprotected
-            } else if (minutesSinceRestore > this.rpo / 2) {
+            } else if (minutesSinceRestore > warningThreshold) {
                 value = 0.5; // Warning
             } else {
                 value = 1; // Protected
